@@ -2,17 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUniverciteDto } from 'src/univercite/dto/create-univercite.dto';
 import { UpdateUniverciteDto } from 'src/univercite/dto/update-univercite.dto';
+import { Univercite } from 'src/univercite/entities/univercite.entity';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Univercite) private univercite: Repository<Univercite>,
   ) {}
   create(user: User): Promise<User> {
-    return this.userRepository.save(user);
+    const newUser = this.userRepository.create({ ...user });
+    return this.userRepository.save(newUser);
   }
 
   findAll(): Promise<User[]> {

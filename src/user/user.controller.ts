@@ -14,12 +14,12 @@ import { User } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Post()
-  async create(@Body() body: User) {
+  async create(@Body() body: [], cool: User) {
     console.log({ name: 'zadi' }, body);
-    return await this.userService.create(body);
+    return await this.userService.create(cool);
   }
 
   @Get()
@@ -32,10 +32,10 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.userService.update(+id, updateUserDto);
-  // }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(+id, updateUserDto);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
